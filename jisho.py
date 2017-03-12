@@ -3,7 +3,7 @@
 
 import sys
 from itertools import chain
-from workflow import Workflow, web, ICON_WEB, ICON_INFO
+from workflow import Workflow, web, ICON_WEB, ICON_INFO, ICON_NOTE
 
 API_URL = 'http://jisho.org/api/v1/search/words'
 MAX_NUM_RESULTS = 9  # Maximum number of results that Alfred can display.
@@ -180,9 +180,14 @@ def main(wf):
     # Retrieve results from Jisho.org.
     results = get_results(query)
 
-    # Add results, up to the maximum number of results, to Alfred.
-    for i in range(min(len(results), MAX_NUM_RESULTS)):
-        add_alfred_result(wf, results[i])
+    if results:
+        # Add results, up to the maximum number of results, to Alfred.
+        for i in range(min(len(results), MAX_NUM_RESULTS)):
+            add_alfred_result(wf, results[i])
+    else:
+        # Adds a message stating that there were no results to Alfred.
+        error_msg = "Sorry, couldn't find anything matching '%s'" % (query)
+        wf.add_item(error_msg, icon=ICON_NOTE)
 
     # Send the results to Alfred as XML.
     wf.send_feedback()
