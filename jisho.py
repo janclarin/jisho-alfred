@@ -3,7 +3,7 @@
 
 import sys
 from itertools import chain
-from workflow import Workflow, web, ICON_WEB
+from workflow import Workflow, web, ICON_WEB, ICON_INFO
 
 API_URL = 'http://jisho.org/api/v1/search/words'
 MAX_NUM_RESULTS = 9  # Maximum number of results that Alfred can display.
@@ -170,6 +170,13 @@ def main(wf):
     if not is_valid_query(query):
         return
 
+    # Add query result if there is an update.
+    if wf.update_available:
+        wf.add_item('A newer version of Jisho Alfred Workflow is available',
+                    'Action this item to download and install the new version',
+                    autocomplete='workflow:update',
+                    icon=ICON_INFO)
+
     # Retrieve results from Jisho.org.
     results = get_results(query)
 
@@ -181,5 +188,8 @@ def main(wf):
     wf.send_feedback()
 
 if __name__ == '__main__':
-    wf = Workflow()
+    # Initialize and configure workflow to self-update.
+    wf = Workflow(update_settings={
+        'github_slug': 'janclarin/jisho-alfred-workflow'
+    })
     sys.exit(wf.run(main))
