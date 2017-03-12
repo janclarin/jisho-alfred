@@ -140,7 +140,8 @@ def main(wf):
     else:
         # Adds a message stating that there were no results to Alfred.
         error_msg = "Sorry, couldn't find anything matching '%s'" % (query)
-        wf.add_item(error_msg, icon=ICON_NOTE)
+        wf.add_item(error_msg, arg=query, valid=True, largetext=error_msg,
+                    icon=ICON_NOTE)
 
     # Send the results to Alfred as XML.
     wf.send_feedback()
