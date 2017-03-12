@@ -41,94 +41,47 @@ def add_alfred_result(wf, result):
     # Contains info like English definitions and parts of speech.
     senses = result['senses']
 
-    # Get Alfred result item information.
-    title = get_title(japanese)
-    subtitle = get_subtitle(japanese, senses)
-    url_arg = get_url_arg(japanese)
+    # Combined English definitions string.
+    combined_eng_defs = combine_english_defs(senses)
+
+    # First Japanese word and reading. Likely the most common word and reading.
+    word_reading = japanese[0]
+
+    # Determine title and subtitle based on if there is kanji and kana.
+    if has_kanji_and_kana(word_reading):
+        title = word_reading['word']  # Kanji.
+        kana_reading = word_reading['reading']
+        subtitle = kana_reading + SEP_BAR + combined_eng_defs
+    elif has_just_kanji(word_reading):
+        title = word_reading['word']  # Kanji.
+        subtitle = combined_eng_defs
+    else:
+        title = word_reading['reading']  # Kana. No kanji, so kana title.
+        subtitle = combined_eng_defs
 
     # Add Alfred result item based on info above.
-    wf.add_item(title=title, subtitle=subtitle, arg=url_arg, valid=True,
+    wf.add_item(title=title, subtitle=subtitle, arg=title, valid=True,
                 largetext=title, icon=ICON_WEB)
 
 
-def has_kanji(japanese):
-    """Returns True if there is at least one kanji/word for the term.
+def has_kanji_and_kana(word_reading):
+    """Returns True if there is both kanji and kana in the word reading.
     Args:
-        japanese: An array with dict elements with reading info from Jisho.
+        word_reading: A dict that might have a 'word' or 'reading' key.
     Returns:
-        True if there is a kanji/word for a term.
+        True if 'word' and 'reading' are keys in the dict.
     """
-    return any(['word' in word_reading for word_reading in japanese])
+    return 'word' in word_reading and 'reading' in word_reading
 
 
-def get_title(japanese):
-    """Creates a string with kanji or kana if there is no kanji.
+def has_just_kanji(word_reading):
+    """Returns True if there is just kanji in the word reading.
     Args:
-        japanese: An array with dict elements with reading info from Jisho.
+        word_reading: A dict that might have a 'word' or 'reading' key.
     Returns:
-        A string with kanji or kana if there is no kanji.
+        True if 'reading' in not a key and 'word' is a key in the dict.
     """
-    if has_kanji(japanese):
-        return combine_japanese_field(japanese, 'word')
-    else:
-        return combine_japanese_field(japanese, 'reading')
-
-
-def get_subtitle(japanese, senses):
-    """Creates a string with the kana (if a kanji term) and english definitions.
-    Args:
-        japanese: An array with dict elements with reading info from Jisho.
-        senses: An array with dict elements with English info.
-    Returns:
-        A string with kana readings and English definitions if available.
-    """
-    combined_eng_defs = combine_english_defs(senses)
-    subtitle = u''
-
-    if has_kanji(japanese):
-        combined_kana_readings = combine_japanese_field(japanese, 'reading')
-
-        # Try to combine kana readings and English definitions if both exist.
-        if combined_kana_readings and combined_eng_defs:
-            subtitle = combined_kana_readings + SEP_BAR + combined_eng_defs
-        elif combined_kana_readings:
-            subtitle = combined_kana_readings
-        elif combined_eng_defs:
-            subtitle = combined_eng_defs
-    else:
-        # Just English definitions if not kana, kana probably used for title.
-        subtitle = combined_eng_defs
-
-    return subtitle
-
-
-def get_url_arg(japanese):
-    """Gets the first kanji or kana reading for searching in Jisho for a result.
-
-    Used when pressing 'Enter' on an Alfred result. This arg is the term that
-    will be used as the search term on jisho.org.
-
-    Args:
-        japanese: An array with dict elements with reading info from Jisho.
-    Returns:
-        A string representing kanji or a kana term to search for in browser.
-    """
-    if has_kanji(japanese):
-        return japanese[0]['word']
-    else:
-        return japanese[0]['reading']
-
-
-def combine_japanese_field(japanese, field, separator=SEP_COMMA):
-    """Combines unique kanji/kana readings for japanese.
-    Args:
-        japanese: An array with dict elements with reading info from Jisho.
-        field: A string representing the field in japanese, 'word' or 'reading'
-    Returns:
-        A string of Japanese kanji or kana separated by the separator.
-    """
-    japanese_words = {word[field] for word in japanese if field in word}
-    return separator.join(japanese_words)
+    return 'reading' not in word_reading and 'word' in word_reading
 
 
 def combine_english_defs(senses, separator=u', '):
