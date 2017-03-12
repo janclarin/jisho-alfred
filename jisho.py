@@ -2,11 +2,13 @@
 # encoding: utf-8
 
 import sys
+from itertools import chain
 from workflow import Workflow, web, ICON_WEB
 
 API_URL = 'http://jisho.org/api/v1/search/words'
-SEP_COMMA = u'、 '   # Separator for subtitle kana readings.
 MAX_NUM_RESULTS = 9  # Maximum number of results that Alfred can display.
+SEP_COMMA = u'、 '   # Separator between Japanese characters and words.
+SEP_BAR = u' | '     # Separator between different info: kana and definitions.
 
 
 def get_results(query):
@@ -33,31 +35,127 @@ def add_alfred_result(wf, result):
         wf: An instance of Workflow.
         result: A dict representation of info about the Japanese word.
     """
-    japanese_info = result['japanese']
+    # Contains kanji and kana for the result.
+    japanese = result['japanese']
 
-    # Prefer kanji as title over kana.
-    if 'word' in japanese_info[0]:
-        title = japanese_info[0]['word']
-        subtitle = combine_kana_readings(japanese_info)
-    else:
-        title = japanese_info[0]['reading']
-        # Ignore first reading since it was used as the title.
-        subtitle = combine_kana_readings(japanese_info[1:])
+    # Contains info like English definitions and parts of speech.
+    senses = result['senses']
 
-    wf.add_item(title=title,
-                subtitle=subtitle,
-                arg=title,
-                valid=True,
-                largetext=title,
-                icon=ICON_WEB)
+    # Get Alfred result item information.
+    title = get_title(japanese)
+    subtitle = get_subtitle(japanese, senses)
+    url_arg = get_url_arg(japanese)
+
+    # Add Alfred result item based on info above.
+    wf.add_item(title=title, subtitle=subtitle, arg=url_arg, valid=True,
+                largetext=title, icon=ICON_WEB)
 
 
-def combine_kana_readings(japanese_info):
-    """Combines the kana readings for the japanese info with the SEP_COMMA.
+def has_kanji(japanese):
+    """Returns True if there is at least one kanji/word for the term.
     Args:
-        japanese_info: An array with dict elements with reading info.
+        japanese: An array with dict elements with reading info from Jisho.
+    Returns:
+        True if there is a kanji/word for a term.
     """
-    return SEP_COMMA.join([word['reading'] for word in japanese_info])
+    return any(['word' in word_reading for word_reading in japanese])
+
+
+def get_title(japanese):
+    """Creates a string with kanji or kana if there is no kanji.
+    Args:
+        japanese: An array with dict elements with reading info from Jisho.
+    Returns:
+        A string with kanji or kana if there is no kanji.
+    """
+    if has_kanji(japanese):
+        return combine_japanese_field(japanese, 'word')
+    else:
+        return combine_japanese_field(japanese, 'reading')
+
+
+def get_subtitle(japanese, senses):
+    """Creates a string with the kana (if a kanji term) and english definitions.
+    Args:
+        japanese: An array with dict elements with reading info from Jisho.
+        senses: An array with dict elements with English info.
+    Returns:
+        A string with kana readings and English definitions if available.
+    """
+    combined_eng_defs = combine_english_defs(senses)
+    subtitle = u''
+
+    if has_kanji(japanese):
+        combined_kana_readings = combine_japanese_field(japanese, 'reading')
+
+        # Try to combine kana readings and English definitions if both exist.
+        if combined_kana_readings and combined_eng_defs:
+            subtitle = combined_kana_readings + SEP_BAR + combined_eng_defs
+        elif combined_kana_readings:
+            subtitle = combined_kana_readings
+        elif combined_eng_defs:
+            subtitle = combined_eng_defs
+    else:
+        # Just English definitions if not kana, kana probably used for title.
+        subtitle = combined_eng_defs
+
+    return subtitle
+
+
+def get_url_arg(japanese):
+    """Gets the first kanji or kana reading for searching in Jisho for a result.
+
+    Used when pressing 'Enter' on an Alfred result. This arg is the term that
+    will be used as the search term on jisho.org.
+
+    Args:
+        japanese: An array with dict elements with reading info from Jisho.
+    Returns:
+        A string representing kanji or a kana term to search for in browser.
+    """
+    if has_kanji(japanese):
+        return japanese[0]['word']
+    else:
+        return japanese[0]['reading']
+
+
+def combine_japanese_field(japanese, field, separator=SEP_COMMA):
+    """Combines unique kanji/kana readings for japanese.
+    Args:
+        japanese: An array with dict elements with reading info from Jisho.
+        field: A string representing the field in japanese, 'word' or 'reading'
+    Returns:
+        A string of Japanese kanji or kana separated by the separator.
+    """
+    japanese_words = {word[field] for word in japanese if field in word}
+    return separator.join(japanese_words)
+
+
+def combine_english_defs(senses, separator=u', '):
+    """Combines the English definitions in senses.
+    Args:
+        senses: An array with dict elements with English info.
+    Returns:
+        A string of English definitions separated by the separator.
+    """
+    # Each sense contains a list of English definitions. e.g. [[], [], []]
+    eng_defs_lists = [sense['english_definitions'] for sense in senses
+                      if 'english_definitions' in sense]
+
+    # Combine the inner lists of English definitions into one list.
+    combined_eng_defs = chain.from_iterable(eng_defs_lists)
+    return separator.join(combined_eng_defs)
+
+
+def is_valid_query(query):
+    """Returns True if the query is not just a single quote.
+    Args:
+        query: A string representing the search query for Jisho.org.
+    Returns:
+        True if the query is not just a single- or double-quotation mark.
+    """
+    sanitized_query = query.strip()
+    return not (sanitized_query == u'"' or sanitized_query == u"'")
 
 
 def main(wf):
@@ -67,6 +165,10 @@ def main(wf):
     """
     # Get query from Alfred.
     query = wf.args[0] if len(wf.args) else None
+
+    # Only fetch results if it is a valid query.
+    if not is_valid_query(query):
+        return
 
     # Retrieve results from Jisho.org.
     results = get_results(query)
