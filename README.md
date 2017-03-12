@@ -4,7 +4,18 @@ An [Alfred](https://www.alfredapp.com/) workflow to easily search
 It uses the Jisho.org API to retrieve search results and instantly display them
 within Alfred's search results.
 
+**[DOWNLOAD](https://github.com/janclarin/jisho-alfred-workflow/releases/download/1.0/jisho.alfredworkflow)**
+
+<img src="https://raw.githubusercontent.com/janclarin/jisho-alfred-workflow/master/screenshots/usage.gif" width="480">
+
 ## Usage
+Type `ji ` or `じ` followed by the word you want to search for. Note that there
+is a space after `ji` and not after `じ`.
+
+English words should be surrounded with double quotes, to prevent Jisho.org
+from trying to recognize the word as romaji. e.g. `ji "date"`.
+
+Press `Enter` on a selection to open the result on Jisho.org.
 
 ## Credits
 Thank you to the people at [Jisho.org](http://jisho.org/about) for making a
