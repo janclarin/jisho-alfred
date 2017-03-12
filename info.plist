@@ -64,7 +64,7 @@
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
-				<integer>103</integer>
+				<integer>102</integer>
 				<key>keyword</key>
 				<string>ji</string>
 				<key>queuedelaycustom</key>
@@ -101,7 +101,7 @@
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
-				<integer>103</integer>
+				<integer>102</integer>
 				<key>keyword</key>
 				<string>じ</string>
 				<key>queuedelaycustom</key>
