@@ -35,25 +35,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>browser</key>
-				<string></string>
-				<key>spaces</key>
-				<string>%20</string>
-				<key>url</key>
-				<string>http://jisho.org/search/{query}</string>
-				<key>utf8</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.openurl</string>
-			<key>uid</key>
-			<string>1AA912D7-988F-4675-A82D-8DF9DC18F094</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
 				<key>argumenttype</key>
@@ -71,7 +52,7 @@
 				<key>queuemode</key>
 				<integer>2</integer>
 				<key>runningsubtext</key>
-				<string></string>
+				<string>Loading definitions...</string>
 				<key>script</key>
 				<string>python jisho.py "{query}"</string>
 				<key>scriptargtype</key>
@@ -79,9 +60,9 @@
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string></string>
+				<string>Search for Japanese and English words. Surround English words with quotes.</string>
 				<key>title</key>
-				<string>Search Jisho.org</string>
+				<string>Jisho.org</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
@@ -93,6 +74,25 @@
 			<string>1A1B1F4A-02DD-427B-AA1C-9BC7BE384C6D</string>
 			<key>version</key>
 			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string>%20</string>
+				<key>url</key>
+				<string>http://jisho.org/search/{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>1AA912D7-988F-4675-A82D-8DF9DC18F094</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 	</array>
 	<key>readme</key>
