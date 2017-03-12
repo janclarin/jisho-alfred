@@ -33,3 +33,6 @@ is a slightly modified version of
 [Book icon](https://www.iconfinder.com/icons/285636/book_icon#size=128) by
 [Paomedia](https://www.iconfinder.com/paomedia), licensed under
 [CC BY 3.0](https://creativecommons.org/licenses/by/3.0).
+
+Inspired by [alfred-jisho](https://github.com/kylesezhi/alfred-jisho), but
+found that it was really slow between searches and no longer maintained.
