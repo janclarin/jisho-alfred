@@ -5,6 +5,11 @@ It uses the Jisho.org API to retrieve search results and instantly display
 them within Alfred's results.
 
 ## Credits
+This workflow uses the
+[Alfred-Workflow library](https://github.com/deanishe/alfred-workflow),
+licensed under
+[The MIT License](https://github.com/deanishe/alfred-workflow/blob/master/LICENCE.txt).
+
 The
 [icon](https://github.com/janclarin/jisho-alfred-workflow/blob/master/icon.png)
 is a slightly modified version of
