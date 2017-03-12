@@ -21,6 +21,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>78B3A3F8-F4D1-4E71-910B-30B42557F796</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>1AA912D7-988F-4675-A82D-8DF9DC18F094</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
 	<string>Jan Clarin</string>
@@ -32,6 +45,25 @@
 	<string>Jisho.org</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string>%20</string>
+				<key>url</key>
+				<string>http://jisho.org/search/{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>1AA912D7-988F-4675-A82D-8DF9DC18F094</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -78,21 +110,45 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>browser</key>
-				<string></string>
-				<key>spaces</key>
-				<string>%20</string>
-				<key>url</key>
-				<string>http://jisho.org/search/{query}</string>
-				<key>utf8</key>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>103</integer>
+				<key>keyword</key>
+				<string>じ</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
 				<true/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>Loading definitions...</string>
+				<key>script</key>
+				<string>python jisho.py "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Search for Japanese and English words. Surround English words with quotes.</string>
+				<key>title</key>
+				<string>Jisho.org</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.openurl</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>1AA912D7-988F-4675-A82D-8DF9DC18F094</string>
+			<string>78B3A3F8-F4D1-4E71-910B-30B42557F796</string>
 			<key>version</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -112,6 +168,13 @@
 			<integer>320</integer>
 			<key>ypos</key>
 			<integer>90</integer>
+		</dict>
+		<key>78B3A3F8-F4D1-4E71-910B-30B42557F796</key>
+		<dict>
+			<key>xpos</key>
+			<integer>80</integer>
+			<key>ypos</key>
+			<integer>250</integer>
 		</dict>
 	</dict>
 	<key>webaddress</key>
