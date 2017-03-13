@@ -9,13 +9,21 @@ within Alfred's search results.
 <img src="https://raw.githubusercontent.com/janclarin/jisho-alfred-workflow/master/screenshots/usage.gif" width="480">
 
 ## Usage
+### Searching
 Type `ji ` or `じ` followed by the word you want to search for. Note that there
 is a space after `ji` and not after `じ`.
 
-English words should be surrounded with double quotes, to prevent Jisho.org
-from trying to recognize the word as romaji. e.g. `ji "date"`.
+As [stated by Jisho.org](http://jisho.org/docs), searches for English words can
+be surrounded with *double quotes* to prevent searching for the word as romaji.
+e.g. `ji "date"` would search for the English word "date" and `ji date` would
+search for "だて".
 
+### Open search result in browser
 Press `Enter` on a selection to open the result on Jisho.org.
+
+### Display large version of search result
+Press `CMD`+`L` on a selection to display a large version of the kanji or kana
+search result title. This is useful for looking at detailed kanji.
 
 ## Credits
 Thank you to the people at [Jisho.org](http://jisho.org/about) for making a
