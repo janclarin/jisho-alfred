@@ -149,6 +149,7 @@ def main(wf):
 if __name__ == '__main__':
     # Initialize and configure workflow to self-update.
     wf = Workflow(update_settings={
-        'github_slug': 'janclarin/jisho-alfred-workflow'
+        'github_slug': 'janclarin/jisho-alfred-workflow',
+        'frequency': 2
     })
     sys.exit(wf.run(main))
