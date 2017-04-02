@@ -119,10 +119,6 @@ def main(wf):
     # Get query from Alfred.
     query = wf.args[0] if len(wf.args) else None
 
-    # Only fetch results if it is a valid query.
-    if not is_valid_query(query):
-        return
-
     # Add query result if there is an update.
     if wf.update_available:
         wf.add_item('A newer version of Jisho Alfred Workflow is available',
@@ -130,16 +126,16 @@ def main(wf):
                     autocomplete='workflow:update',
                     icon=ICON_INFO)
 
-    # Retrieve results from Jisho.org.
-    results = get_results(query)
+    # Only fetch results from Jisho.org if it is a valid query.
+    results = get_results(query) if is_valid_query(query) else []
 
     if results:
         # Add results, up to the maximum number of results, to Alfred.
         for i in range(min(len(results), MAX_NUM_RESULTS)):
             add_alfred_result(wf, results[i])
     else:
-        # Adds a message stating that there were no results to Alfred.
-        error_msg = "Sorry, couldn't find anything matching '%s'" % (query)
+        # Add an error result if there were no results.
+        error_msg = "Could not find anything matching '%s'" % (query)
         wf.add_item(error_msg, arg=query, valid=True, largetext=error_msg,
                     icon=ICON_NOTE)
 
