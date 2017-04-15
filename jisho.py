@@ -6,9 +6,9 @@ from itertools import chain
 from workflow import Workflow, web, ICON_WEB, ICON_INFO, ICON_NOTE, ICON_ERROR
 
 API_URL = 'http://jisho.org/api/v1/search/words'
-MAX_NUM_RESULTS = 9  # Maximum number of results that Alfred can display.
-SEP_COMMA = u'、 '   # Separator between Japanese characters and words.
-SEP_BAR = u' | '     # Separator between different info: kana and definitions.
+MAX_NUM_RESULTS = 50  # Maximum number of results to show in Alfred.
+SEP_COMMA = u'、 '    # Separator between Japanese characters and words.
+SEP_BAR = u' | '      # Separator between different info: kana and definitions.
 
 
 def get_results(query):
