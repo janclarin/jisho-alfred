@@ -27,8 +27,7 @@ kana. This is useful for looking at detailed kanji.
 
 ### Update
 Jisho Alfred Workflow checks for updates once a day during the first search. If 
-an update is found, it will display an update search result. To update, just
-press `Enter` on the update search result.
+an update is found, it will be downloaded automatically and ask to be applied.
 
 To check for updates manually, enter `ji workflow:update` in Alfred.
 
