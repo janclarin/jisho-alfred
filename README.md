@@ -9,7 +9,7 @@ within Alfred's search results.
 <img src="https://raw.githubusercontent.com/janclarin/jisho-alfred-workflow/master/screenshots/usage.gif" width="480">
 
 ## Usage
-### Searching
+### Search
 Type `ji ` or `じ` followed by the word you want to search for. Note that there
 is a space after `ji` and not after `じ`.
 
@@ -19,11 +19,18 @@ e.g. `ji "date"` would search for the English word "date" and `ji date` would
 search for "だて".
 
 ### Open search result in browser
-Press `Enter` on a selection to open the result on Jisho.org.
+Press `Enter` on a search result to open the result on Jisho.org.
 
 ### Display large version of search result
-Press `CMD`+`L` on a selection to display a large version of the kanji or kana
-search result title. This is useful for looking at detailed kanji.
+Press `CMD`+`L` on a search result to display a large version of the kanji or
+kana. This is useful for looking at detailed kanji.
+
+### Update
+Jisho Alfred Workflow checks for updates once a day during the first search. If 
+an update is found, it will display an update search result. To update, just
+press `Enter` on the update search result.
+
+To check for updates manually, enter `ji workflow:update` in Alfred.
 
 ## Credits
 Thank you to the people at [Jisho.org](http://jisho.org/about) for making a
