@@ -80,7 +80,7 @@
 				<key>script</key>
 				<string>python jisho.py "{query}"</string>
 				<key>subtext</key>
-				<string>Search for Japanese and English words. Surround English words with double quotes.</string>
+				<string>Search for Japanese and English words</string>
 				<key>title</key>
 				<string>Jisho.org</string>
 				<key>type</key>
@@ -117,7 +117,7 @@
 				<key>script</key>
 				<string>python jisho.py "{query}"</string>
 				<key>subtext</key>
-				<string>Search for Japanese and English words. Surround English words with double quotes.</string>
+				<string>Search for Japanese and English words</string>
 				<key>title</key>
 				<string>Jisho.org</string>
 				<key>type</key>
