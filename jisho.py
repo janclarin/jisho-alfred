@@ -3,7 +3,7 @@
 
 import sys
 from itertools import chain
-from workflow import Workflow, web, ICON_WEB, ICON_INFO, ICON_NOTE
+from workflow import Workflow, web, ICON_WEB, ICON_INFO, ICON_NOTE, ICON_ERROR
 
 API_URL = 'http://jisho.org/api/v1/search/words'
 MAX_NUM_RESULTS = 9  # Maximum number of results that Alfred can display.
@@ -126,18 +126,22 @@ def main(wf):
                     autocomplete='workflow:update',
                     icon=ICON_INFO)
 
-    # Only fetch results from Jisho.org if it is a valid query.
-    results = get_results(query) if is_valid_query(query) else []
+    try:
+        # Only fetch results from Jisho.org if it is a valid query.
+        results = get_results(query) if is_valid_query(query) else []
 
-    if results:
-        # Add results, up to the maximum number of results, to Alfred.
-        for i in range(min(len(results), MAX_NUM_RESULTS)):
-            add_alfred_result(wf, results[i])
-    else:
-        # Add an error result if there were no results.
-        error_msg = "Could not find anything matching '%s'" % (query)
-        wf.add_item(error_msg, arg=query, valid=True, largetext=error_msg,
-                    icon=ICON_NOTE)
+        if results:
+            # Add results to Alfred, up to the maximum number of results.
+            for i in range(min(len(results), MAX_NUM_RESULTS)):
+                add_alfred_result(wf, results[i])
+        else:
+            # Add an error result if there was an issue getting results.
+            error_msg = "Could not find anything matching '%s'" % (query)
+            wf.add_item(error_msg, arg=query, valid=True, icon=ICON_NOTE)
+    except:
+        # Add an error result if there was an issue getting results.
+        error_msg = "There was an issue retrieving Jisho results"
+        wf.add_item(error_msg, arg=query, valid=True, icon=ICON_ERROR)
 
     # Send the results to Alfred as XML.
     wf.send_feedback()
