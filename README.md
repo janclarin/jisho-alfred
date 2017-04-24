@@ -6,7 +6,7 @@ within Alfred's search results.
 
 **[DOWNLOAD](https://github.com/janclarin/jisho-alfred-workflow/releases/download/1.9.1/jisho.alfredworkflow)**
 
-<img src="https://raw.githubusercontent.com/janclarin/jisho-alfred-workflow/master/screenshots/usage.gif" width="480">
+<img src="https://cloud.githubusercontent.com/assets/2449384/25322216/28b1e95e-2872-11e7-8045-f0272da11dc7.gif" width="480">
 
 ## Usage
 ### Search
